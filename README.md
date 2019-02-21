@@ -7,8 +7,6 @@ Executable code and blocks for the Baze front site
 ## Properties
 Module name: Baze_FrontpageComponents
 
-Depends on [Baze frontsite theme](https://github.com/baze-magento/theme-baze).
-
 ## Notes
 At this time, this module doesn't expose any pages directly to the internet. Blocks are to be invoked through CMS pages or the theme's components.
 
