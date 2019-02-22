@@ -7,28 +7,28 @@ use \Magento\Store\Model\StoreManagerInterface;
 class Links extends \Magento\Framework\View\Element\Template
 {
 
-    protected $_segmentFactory;
+    protected $segmentFactory;
 
-    protected $_storeManager;
+    protected $storeManager;
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         SegmentFactory $segmentFactory,
         StoreManagerInterface $storeManager
     ) {
-        $this->_segmentFactory = $segmentFactory;
-        $this->_storeManager = $storeManager;
+        $this->segmentFactory = $segmentFactory;
+        $this->storeManager = $storeManager;
         return parent::__construct($context);
     }
 
     public function getSegmentUrl($item)
     {
-        return $this->_storeManager->getStore()->getBaseUrl()."segment?s=".$item['url_key'];
+        return $this->storeManager->getStore()->getBaseUrl()."segment?s=".$item['url_key'];
     }
 
     public function getActiveSegments()
     {
-        $segment = $this->_segmentFactory->create();
+        $segment = $this->segmentFactory->create();
         $collection = $segment->getCollection()
             ->addFieldToFilter('active', ['eq' => 1]);
         $out = [];
@@ -36,5 +36,10 @@ class Links extends \Magento\Framework\View\Element\Template
             $out[] = $item->getData();
         }
         return $out;
+    }
+
+    public function getContactLink()
+    {
+        return $this->storeManager->getStore()->getBaseUrl().'contact/';
     }
 }
