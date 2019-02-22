@@ -2,7 +2,7 @@
     "name": "baze/module-frontpage-components",
     "description": "Executable code and blocks for the Baze front site.",
     "require": {
-        "php": "~5.6.0|~7.0.0|~7.1.0"
+        "php": "~5.6.0|~7.0.0|~7.1.0|~7.2.0"
     },
     "type": "magento2-module",
     "autoload": {
