@@ -1,0 +1,42 @@
+<style>
+    .segment_previews {
+        max-width: 808px;
+        margin: 0px auto;
+    }
+    .segment_previews .item {
+        flex: auto;
+        color: white;
+        background: #444;
+        margin: 14px;
+        height: 200px;
+        line-height:200px;
+        min-width: 376px;
+        text-align: center;
+        font-size: 30px;
+        font-weight: 600;
+        box-shadow: 0 0 10px black;
+        transition: box-shadow 0.2s;
+
+        background-size: cover;
+        background-position: center;
+    }
+    .segment_previews .item:hover {
+        box-shadow: 0 0 18px black;
+    }
+    .segment_previews .item > span {
+        vertical-align: middle;
+    }
+</style>
+<div class="flex wrap segment_previews">
+    <?php
+    $segments = $block->getActiveSegments();
+    foreach ($segments as $segment) {
+        echo "<a href='".$block->getSegmentUrl($segment)."' 
+            class='item' 
+            style='background-image: url(/{$segment['thumbnail_uri']})'
+        >
+            <span>{$segment['name']}</span>
+        </a>";
+    }
+    ?>
+</div>
