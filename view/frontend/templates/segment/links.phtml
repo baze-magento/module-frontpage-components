@@ -4,3 +4,4 @@ $segments = $block->getActiveSegments();
 foreach ($segments as $segment) {
     echo "<span class='item'><a href='".$block->getSegmentUrl($segment)."'>{$segment['name']}</a></span>";
 }
+echo "<span class='item'><a href='".$block->getContactLink()."'>Kontakt</a></span>";

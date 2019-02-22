@@ -4,53 +4,56 @@ namespace Baze\FrontpageComponents\Block\Segment;
 class Page extends \Magento\Framework\View\Element\Template
 {
 
-    protected $_segmentFactory;
+    protected $segmentFactory;
 
-    protected $_request;
+    protected $segmentImageFactory;
 
-    protected $_storeManager;
+    protected $request;
+
+    protected $storeManager;
+
+    public $segment;
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Baze\FrontpageComponents\Model\SegmentFactory $segmentFactory,
+        \Baze\FrontpageComponents\Model\SegmentImageFactory $segmentImageFactory,
         \Magento\Framework\App\Request\Http $request,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_segmentFactory = $segmentFactory;
-        $this->_request = $request;
-        $this->_storeManager = $storeManager;
+        $this->segmentFactory = $segmentFactory;
+        $this->segmentImageFactory = $segmentImageFactory;
+        $this->request = $request;
+        $this->storeManager = $storeManager;
         return parent::__construct($context);
     }
 
     public function getThisSegment()
     {
-        $segment_key = $this->_request->getParam('s');
+        $segmentKey = $this->request->getParam('s');
 
-        $segment = $this->_segmentFactory->create();
-        $collection = $segment->getCollection()
+        $Segment = $this->segmentFactory->create();
+        $Collection = $Segment->getCollection()
             ->addFieldToFilter('active', ['eq' => 1])
-            ->addFieldToFilter('url_key', ['eq' => $segment_key]);
-        if (count($collection) == 0) {
-            header("Location: ".$this->_storeManager->getStore()->getBaseUrl().'404/');
+            ->addFieldToFilter('url_key', ['eq' => $segmentKey]);
+        if (count($Collection) == 0) {
+            header("Location: ".$this->storeManager->getStore()->getBaseUrl().'404/');
             die();
         }
-        return $collection->getFirstItem()->toArray();
+        $this->segment = $Collection->getFirstItem()->toArray();
+        return $this->segment;
     }
 
-    public function getSegmentImages($id)
+    public function getSegmentImages()
     {
-        return;
+        $SegmentImage = $this->segmentImageFactory->create();
+        $Collection = $SegmentImage->getCollection()
+            ->addFieldToFilter('page_id', ['eq' => $this->segment['id']]);
+        return $Collection->toArray()['items'];
     }
 
-    public function getActiveSegments()
+    public function getContactLink()
     {
-        $segment = $this->_segmentFactory->create();
-        $collection = $segment->getCollection()
-            ->addFieldToFilter('active', ['eq' => 1]);
-        $out = [];
-        foreach ($collection as $item) {
-            $out[] = $item->getData();
-        }
-        return $out;
+        return $this->storeManager->getStore()->getBaseUrl().'contact/';
     }
 }
